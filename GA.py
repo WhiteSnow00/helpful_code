@@ -60,14 +60,15 @@ def genetic_algorithm(operations, population_size, num_generations, mutation_rat
     for generation in range(1, num_generations + 1):
         selected_individuals = [selection(population) for _ in range(population_size // 2)]
 
-        if len(selected_individuals) < 2:
-            raise ValueError("Selected individuals must have at least 2 members")
-
         offspring = []
         while len(offspring) < population_size:
             parent1 = random.choice(selected_individuals)
-            parent2 = random.choice([ind for ind in selected_individuals if ind != parent1])
-            child1, child2 = crossover(parent1, parent2)
+            if len(selected_individuals) == 1:
+                child1, child2 = parent1, parent1
+            else:
+                parent2 = random.choice([ind for ind in selected_individuals if ind != parent1])
+                child1, child2 = crossover(parent1, parent2)
+
             offspring.append(child1)
             offspring.append(child2)
 
