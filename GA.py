@@ -50,12 +50,18 @@ def mutation(individual, mutation_rate):
     return individual
 
 def genetic_algorithm(operations, population_size, num_generations, mutation_rate):
+    if population_size < 2:
+        raise ValueError("Population size must be at least 2")
+
     population = [random.sample(operations, len(operations)) for _ in range(population_size)]
     best_individual = min(population, key=fitness)
     print("Generation 0 - Best individual fitness:", fitness(best_individual))
 
     for generation in range(1, num_generations + 1):
         selected_individuals = [selection(population) for _ in range(population_size // 2)]
+
+        if len(selected_individuals) < 2:
+            raise ValueError("Selected individuals must have at least 2 members")
 
         offspring = []
         while len(offspring) < population_size:
