@@ -22,19 +22,25 @@ def selection(population):
     return sorted_population[:len(population) // 2]
 
 def crossover(parent1, parent2):
-    child = [None] * len(parent1)
+    child1 = [None] * len(parent1)
+    child2 = [None] * len(parent2)
     start, end = sorted(random.sample(range(len(parent1)), 2))
 
     for i in range(start, end + 1):
-        child[i] = parent1[i]
+        child1[i] = parent1[i]
+        child2[i] = parent2[i]
 
-    remaining = [op for op in parent2 if op not in child[start:end + 1]]
+    remaining1 = [op for op in parent2 if op not in child1[start:end + 1]]
+    remaining2 = [op for op in parent1 if op not in child2[start:end + 1]]
 
-    for i in range(len(child)):
-        if child[i] is None:
-            child[i] = remaining.pop(0)
+    for i in range(len(child1)):
+        if child1[i] is None:
+            child1[i] = remaining1.pop(0)
+        if child2[i] is None:
+            child2[i] = remaining2.pop(0)
 
-    return child
+    return child1, child2
+
 
 def mutation(individual, mutation_rate):
     mutated_individual = individual[:]
